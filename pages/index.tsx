@@ -1,10 +1,10 @@
-const HomePage = () => {
-    return (
-      <div>
-        <h1>Welcome to CV and Cover Letter Generator!</h1>
-        <a href="/create">Start creating your CV</a>
-      </div>
-    );
-  };
-  export default HomePage;
-  
+import MultiStepForm from "../components/forms/MultiStepForm";
+
+export default function Home() {
+  return (
+    <div>
+      <h1>CV-Generaattori</h1>
+      <MultiStepForm />
+    </div>
+  );
+}
