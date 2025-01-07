@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import FormStep1 from "./FormStep1";
@@ -28,9 +29,16 @@ const MultiStepForm = () => {
 
   const prevStep = () => setCurrentStep((prev) => Math.max(prev - 1, 0));
 
-  const onSubmit = (data: any) => {
+  const onSubmit = async (data: any) => {
     if (currentStep === steps.length - 1) {
-      console.log("Lomake lähetetty:", data);
+      try {
+        const response = await axios.post("https://example.com/api/form", data); // Placeholder endpoint
+        console.log("Form submitted successfully:", response.data);
+        alert("Form submitted successfully!");
+        } catch (error) {
+        console.error("Submission failed:", error);
+        alert("Submission failed. Please check your connection or try again later.");
+        }
     } else {
       nextStep();
     }

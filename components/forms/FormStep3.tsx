@@ -5,15 +5,15 @@ const FormStep3 = ({ prevStep }: { prevStep: () => void }) => {
 
   return (
     <div>
-      <h2>Koulutus</h2>
+      <h2>Degrees</h2>
       <div>
-        <input {...register("schoolName", { required: "Oppilaitoksen nimi on pakollinen" })} placeholder="Oppilaitoksen nimi" />
+        <input {...register("schoolName", { required: "School name is required." })} placeholder="Oppilaitoksen nimi" />
       </div>
       <div>
-        <input {...register("degree", { required: "Tutkinto on pakollinen" })} placeholder="Tutkinto" />
+        <input {...register("degree", { required: "Degree is required." })} placeholder="Tutkinto" />
       </div>
-      <button type="button" onClick={prevStep}>Edellinen</button>
-      <button type="submit">Lähetä</button>
+      <button type="button" onClick={prevStep}>Previous</button>
+      <button type="submit">Send</button>
     </div>
   );
 };
