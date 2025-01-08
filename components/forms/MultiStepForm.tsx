@@ -30,19 +30,32 @@ const MultiStepForm = () => {
   const prevStep = () => setCurrentStep((prev) => Math.max(prev - 1, 0));
 
   const onSubmit = async (data: any) => {
-    if (currentStep === steps.length - 1) {
-      try {
-        const response = await axios.post("https://example.com/api/form", data); // Placeholder endpoint
-        console.log("Form submitted successfully:", response.data);
-        alert("Form submitted successfully!");
-        } catch (error) {
-        console.error("Submission failed:", error);
-        alert("Submission failed. Please check your connection or try again later.");
+    try {
+      const response = await axios.post("/api/form", data);
+      console.log("Form submitted successfully:", response.data);
+      alert("Form submitted successfully!");
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 400 && error.response.data.errors) {
+          // Backend error handling
+          const backendErrors = error.response.data.errors;
+          // Setting error messages for each field
+          Object.keys(backendErrors).forEach((field) => {
+            methods.setError(field as "firstName" | "lastName" | "email" | "jobTitle" | "companyName" | "schoolName" | "degree", {
+              message: backendErrors[field][0],
+            });
+          });
+        } else {
+          console.error("Submission failed:", error.message);
+          alert("Submission failed. Please check your connection or try again later.");
         }
-    } else {
-      nextStep();
+      } else {
+        console.error("Unexpected error:", error);
+        alert("An unexpected error occurred. Please try again later.");
+      }
     }
   };
+  
 
   return (
     <FormProvider {...methods}>

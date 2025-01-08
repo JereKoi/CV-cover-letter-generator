@@ -1,14 +1,17 @@
-import { useFormContext } from "react-hook-form";
+import { useFormContext, useWatch } from "react-hook-form";
 
 const FormStep1 = ({ nextStep }: { nextStep: () => void }) => {
   const {
     register,
     formState: { errors },
+    control,
   } = useFormContext();
+
+  const watchedValues = useWatch({ control });
 
   return (
     <div>
-      <h2>Henkilötiedot</h2>
+      <h2>Personal information</h2>
       <div>
         <input
           {...register("firstName", { required: "Etunimi on pakollinen" })}
@@ -35,6 +38,14 @@ const FormStep1 = ({ nextStep }: { nextStep: () => void }) => {
           placeholder="Sähköposti"
         />
         {errors.email && <p>{String(errors.email.message)}</p>}
+        </div>
+      <div>
+        <p>Reaaliaikaiset arvot:</p>
+        <ul>
+          <li>Etunimi: {watchedValues.firstName || "Tyhjä"}</li>
+          <li>Sukunimi: {watchedValues.lastName || "Tyhjä"}</li>
+          <li>Sähköposti: {watchedValues.email || "Tyhjä"}</li>
+        </ul>
       </div>
       <button type="submit">Seuraava</button>
     </div>
