@@ -13,15 +13,17 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "baseUrl": "./",
     "plugins": [
       {
         "name": "next"
       }
     ],
     "paths": {
+      "@components/*": ["src/components/*"],
       "@/*": ["./pages/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "cypress/e2e/support/commands.js", "cypress/e2e/support/commands.js", "cypress/e2e/support/commands.js", "cypress/e2e/MultiStepForm.cy.js"],
   "exclude": ["node_modules"]
 }
