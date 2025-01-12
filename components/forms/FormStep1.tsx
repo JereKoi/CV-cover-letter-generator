@@ -14,40 +14,40 @@ const FormStep1 = ({ nextStep }: { nextStep: () => void }) => {
       <h2>Personal information</h2>
       <div>
         <input
-          {...register("firstName", { required: "Etunimi on pakollinen" })}
-          placeholder="Etunimi"
+          {...register("firstName", { required: "First name is required." })}
+          placeholder="First Name"
         />
         {errors.firstName && <p>{String(errors.firstName.message)}</p>}
       </div>
       <div>
         <input
-          {...register("lastName", { required: "Sukunimi on pakollinen" })}
-          placeholder="Sukunimi"
+          {...register("lastName", { required: "Last name is required." })}
+          placeholder="Last Name"
         />
         {errors.lastName && <p>{String(errors.lastName.message)}</p>}
       </div>
       <div>
         <input
           {...register("email", {
-            required: "Sähköposti on pakollinen",
+            required: "Email is required.",
             pattern: {
               value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-              message: "Virheellinen sähköposti",
+              message: "Invalid email address.",
             },
           })}
-          placeholder="Sähköposti"
+          placeholder="Email"
         />
         {errors.email && <p>{String(errors.email.message)}</p>}
         </div>
       <div>
-        <p>Reaaliaikaiset arvot:</p>
+        <p>Info given:</p>
         <ul>
-          <li>Etunimi: {watchedValues.firstName || "Tyhjä"}</li>
-          <li>Sukunimi: {watchedValues.lastName || "Tyhjä"}</li>
-          <li>Sähköposti: {watchedValues.email || "Tyhjä"}</li>
+          <li>First name: {watchedValues.firstName || "Empty"}</li>
+          <li>Last name: {watchedValues.lastName || "Empty"}</li>
+          <li>Email: {watchedValues.email || "Empty"}</li>
         </ul>
       </div>
-      <button type="submit">Seuraava</button>
+      <button type="submit" onClick={nextStep}>Next</button>
     </div>
   );
 };

@@ -8,25 +8,25 @@ const FormStep2 = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () 
 
   return (
     <div>
-      <h2>Työkokemus</h2>
+      <h2>Work Experience</h2>
       <div>
         <input
-          {...register("jobTitle", { required: "Työnimike on pakollinen" })}
-          placeholder="Työnimike"
+          {...register("jobTitle", { required: "Job title is required." })}
+          placeholder="Job Title"
         />
         {errors.jobTitle && <p>{String(errors.jobTitle.message)}</p>}
       </div>
       <div>
         <input
-          {...register("companyName", { required: "Yrityksen nimi on pakollinen" })}
-          placeholder="Yrityksen nimi"
+          {...register("companyName", { required: "Company name is required." })}
+          placeholder="Company name"
         />
         {errors.companyName && <p>{String(errors.companyName.message)}</p>}
       </div>
       <button type="button" onClick={prevStep}>
-        Edellinen
+        Previous
       </button>
-      <button type="submit">Seuraava</button>
+      <button type="submit" onClick={nextStep}>Next</button>
     </div>
   );
 };
