@@ -24,6 +24,6 @@
       "@/*": ["./pages/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "cypress/e2e/support/commands.js", "cypress/e2e/support/commands.js", "cypress/e2e/support/commands.js", "cypress/e2e/MultiStepForm.cy.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "cypress/support/commands.js", "cypress/support/commands.js", "cypress/support/commands.js", "cypress/e2e/MultiStepForm.cy.js"],
   "exclude": ["node_modules"]
 }
