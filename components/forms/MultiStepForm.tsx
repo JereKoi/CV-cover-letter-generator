@@ -7,20 +7,18 @@ import FormStep3 from "./FormStep3";
 
 const MultiStepForm = () => {
   const storageKey = process.env.STORAGE_KEY || "defaultKey";
-  const savedData = typeof window !== "undefined" 
-  ? JSON.parse(localStorage.getItem(storageKey) || "{}")
-  : {};
+
 
 
   const methods = useForm({
     defaultValues: {
-      firstName: savedData.firstName || "",
-      lastName: savedData.lastName || "",
-      email: savedData.email || "",
-      jobTitle: savedData.jobTitle || "",
-      companyName: savedData.companyName || "",
-      schoolName: savedData.schoolName || "",
-      degree: savedData.degree || "",
+      firstName: "",
+      lastName: "",
+      email: "",
+      jobTitle: "",
+      companyName: "",
+      schoolName: "",
+      degree: "",
     },
   });
   const [currentStep, setCurrentStep] = useState(0);
@@ -28,6 +26,13 @@ const MultiStepForm = () => {
   const steps = [FormStep1, FormStep2, FormStep3];
   const StepComponent = steps[currentStep];
   const { watch, reset } = methods;
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const savedData = JSON.parse(localStorage.getItem(storageKey) || "{}");
+      reset(savedData);
+    }
+  }, [reset, storageKey]);
 
   useEffect(() => {
     const subscription = watch((values) => {
