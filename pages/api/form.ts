@@ -1,40 +1,45 @@
-import type { NextApiRequest, NextApiResponse } from "next";
+import { NextApiRequest, NextApiResponse } from "next";
 
-interface FormData {
-  firstName: string;
-  lastName: string;
-  email: string;
-  jobTitle: string;
-  companyName: string;
-  schoolName: string;
-  degree: string;
-}
+const validateFormData = (data: any) => {
+  const errors: Record<string, string[]> = {};
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (!data.firstName || data.firstName.trim() === "") {
+    errors.firstName = ["First name is required"];
+  }
+  if (!data.lastName || data.lastName.trim() === "") {
+    errors.lastName = ["Last name is required"];
+  }
+  if (!data.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+    errors.email = ["Email must be valid"];
+  }
+  if (!data.jobTitle || data.jobTitle.trim() === "") {
+    errors.jobTitle = ["Job title is required"];
+  }
+  if (!data.companyName || data.companyName.trim() === "") {
+    errors.companyName = ["Company name is required"];
+  }
+  if (!data.schoolName || data.schoolName.trim() === "") {
+    errors.schoolName = ["School name is required"];
+  }
+  if (!data.degree || data.degree.trim() === "") {
+    errors.degree = ["Degree is required"];
+  }
+
+  return errors;
+};
+
+export default function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {
-    const { firstName, lastName, email, jobTitle, companyName, schoolName, degree }: FormData = req.body;
-
-    // Validation
-    const errors: Record<string, string[]> = {};
-
-    if (!firstName) errors.firstName = ["First name is required"];
-    if (!email || !/\S+@\S+\.\S+/.test(email)) errors.email = ["A valid email is required"];
+    const errors = validateFormData(req.body);
 
     if (Object.keys(errors).length > 0) {
       return res.status(400).json({ errors });
     }
 
-    try {
-      // Here can perform for example database saving
-      // const result = await someDatabaseOperation(formData);
-
-      return res.status(200).json({ message: "Form submitted successfully" });
-    } catch (err) {
-      return res.status(500).json({ error: "Something went wrong. Please try again later." });
-    }
-  } else {
-    // Other HTTP not allowed
-    res.setHeader("Allow", ["POST"]);
-    res.status(405).end(`Method ${req.method} Not Allowed`);
+    // Simulate saving the data (e.g., saving to Firebase)
+    return res.status(200).json({ message: "Form submitted successfully" });
   }
+
+  res.setHeader("Allow", ["POST"]);
+  res.status(405).end(`Method ${req.method} Not Allowed`);
 }

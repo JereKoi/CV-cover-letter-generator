@@ -38,7 +38,7 @@ describe("MultiStepForm E2E Test", () => {
     cy.get('button[type="submit"]').contains("Next").click();
     cy.get('input[name="email"]').type("invalid-email");
     cy.get('button[type="submit"]').contains("Next").click();
-    cy.contains("Email must be valid").should("be.visible");
+    cy.contains("Invalid email address.").should("be.visible");
   });
 
   it("should save progress and restore it on page reload", () => {
