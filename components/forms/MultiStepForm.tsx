@@ -1,6 +1,8 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
+import formValidationSchema from "../../utils/validationSchema";
 import FormStep1 from "./FormStep1";
 import FormStep2 from "./FormStep2";
 import FormStep3 from "./FormStep3";
@@ -8,9 +10,8 @@ import FormStep3 from "./FormStep3";
 const MultiStepForm = () => {
   const storageKey = process.env.STORAGE_KEY || "defaultKey";
 
-
-
   const methods = useForm({
+    resolver: zodResolver(formValidationSchema),
     defaultValues: {
       firstName: "",
       lastName: "",
@@ -21,6 +22,7 @@ const MultiStepForm = () => {
       degree: "",
     },
   });
+
   const [currentStep, setCurrentStep] = useState(0);
 
   const steps = [FormStep1, FormStep2, FormStep3];
@@ -59,7 +61,6 @@ const MultiStepForm = () => {
         if (error.response?.status === 400 && error.response.data.errors) {
           // Backend error handling
           const backendErrors = error.response.data.errors;
-          // Setting error messages for each field
           Object.keys(backendErrors).forEach((field) => {
             methods.setError(
               field as

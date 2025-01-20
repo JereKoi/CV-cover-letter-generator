@@ -29,3 +29,5 @@ export const processFormData = (data: Record<string, unknown>) => {
 
   return validatedData;
 };
+
+export default formValidationSchema;

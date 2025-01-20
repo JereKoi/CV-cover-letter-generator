@@ -14,31 +14,25 @@ const FormStep1 = ({ nextStep }: { nextStep: () => void }) => {
       <h2>Personal information</h2>
       <div>
         <input
-          {...register("firstName", { required: "First name is required." })}
+          {...register("firstName")}
           placeholder="First Name"
         />
         {errors.firstName && <p>{String(errors.firstName.message)}</p>}
       </div>
       <div>
         <input
-          {...register("lastName", { required: "Last name is required." })}
+          {...register("lastName")}
           placeholder="Last Name"
         />
         {errors.lastName && <p>{String(errors.lastName.message)}</p>}
       </div>
       <div>
         <input
-          {...register("email", {
-            required: "Email is required.",
-            pattern: {
-              value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-              message: "Invalid email address.",
-            },
-          })}
+          {...register("email")}
           placeholder="Email"
         />
         {errors.email && <p>{String(errors.email.message)}</p>}
-        </div>
+      </div>
       <div>
         <p>Info given:</p>
         <ul>
