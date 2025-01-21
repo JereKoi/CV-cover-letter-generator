@@ -11,14 +11,14 @@ const FormStep2 = ({ nextStep, prevStep }: { nextStep: () => void; prevStep: () 
       <h2>Work Experience</h2>
       <div>
         <input
-          {...register("jobTitle", { required: "Job title is required." })}
+          {...register("jobTitle")}
           placeholder="Job Title"
         />
         {errors.jobTitle && <p>{String(errors.jobTitle.message)}</p>}
       </div>
       <div>
         <input
-          {...register("companyName", { required: "Company name is required." })}
+          {...register("companyName")}
           placeholder="Company name"
         />
         {errors.companyName && <p>{String(errors.companyName.message)}</p>}

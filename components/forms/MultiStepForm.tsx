@@ -54,6 +54,9 @@ const MultiStepForm = () => {
     try {
       const response = await axios.post("/api/form", data);
       console.log("Form submitted successfully:", response.data);
+
+      console.log(data);
+
       alert("Form submitted successfully!");
       localStorage.removeItem(storageKey);
     } catch (error: unknown) {
