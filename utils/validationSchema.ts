@@ -13,6 +13,10 @@ const formValidationSchema = z.object({
   email: z
     .string()
     .email("Invalid email format"),
+  jobTitle: z.string().optional(),
+  companyName: z.string().optional(),
+  schoolName: z.string().optional(),
+  degree: z.string().optional(),
 });
 
 export const processFormData = (data: Record<string, unknown>) => {
