@@ -1,11 +1,40 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
+import jsPDF from "jspdf";
 import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import formValidationSchema from "../../utils/validationSchema";
 import FormStep1 from "./FormStep1";
 import FormStep2 from "./FormStep2";
 import FormStep3 from "./FormStep3";
+
+const generatePDF = (data: any, setPdfUrl: (url: string | null) => void) => {
+  const doc = new jsPDF();
+
+  // Set PDF content
+  doc.setFont("Helvetica", "normal");
+  doc.setFontSize(14);
+
+  // Add title
+  doc.text("Submitted Form Information", 20, 20);
+
+  // Add form data
+  const yStart = 30;
+  const lineHeight = 10;
+  let yPosition = yStart;
+
+  Object.entries(data).forEach(([key, value]) => {
+    doc.text(`${key}: ${value}`, 20, yPosition);
+    yPosition += lineHeight;
+  });
+
+  // Create PDF blob and URL
+  const pdfBlob = doc.output("blob");
+  const pdfUrl = URL.createObjectURL(pdfBlob);
+
+  // Set PDF URL to state
+  setPdfUrl(pdfUrl);
+};
 
 const MultiStepForm = () => {
   const storageKey = process.env.STORAGE_KEY || "defaultKey";
@@ -24,6 +53,7 @@ const MultiStepForm = () => {
   });
 
   const [currentStep, setCurrentStep] = useState(0);
+  const [pdfUrl, setPdfUrl] = useState<string | null>(null); // PDF URL state
 
   const steps = [FormStep1, FormStep2, FormStep3];
   const StepComponent = steps[currentStep];
@@ -48,7 +78,7 @@ const MultiStepForm = () => {
     if (isValid) setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1));
   };
 
-  const prevStep = () => setCurrentStep((prev) => Math.max(prev - 1, 0));
+  const prevStep = () => setCurrentStep((prev) => Math.max(prev - 0, 0));
 
   const onSubmit = async (data: any) => {
     try {
@@ -56,6 +86,9 @@ const MultiStepForm = () => {
       console.log("Form submitted successfully:", response.data);
 
       console.log(data);
+
+      // Generate and display the PDF
+      generatePDF(data, setPdfUrl);
 
       alert("Form submitted successfully!");
       localStorage.removeItem(storageKey);
@@ -111,6 +144,16 @@ const MultiStepForm = () => {
       <form onSubmit={methods.handleSubmit(onSubmit)}>
         <StepComponent nextStep={nextStep} prevStep={prevStep} />
       </form>
+
+      {/* Show PDF in iframe if URL exists */}
+      {pdfUrl && (
+        <iframe
+          src={pdfUrl}
+          width="100%"
+          height="500px"
+          style={{ border: "1px solid black", marginTop: "20px" }}
+        ></iframe>
+      )}
     </FormProvider>
   );
 };
